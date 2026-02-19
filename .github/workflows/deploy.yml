@@ -42,7 +42,7 @@ jobs:
           echo "Verificando arquivos obrigatórios na dist/..."
 
           test -f dist/index.html   && echo "✅ index.html encontrado"   || (echo "❌ ERRO: index.html não encontrado!"   && exit 1)
-          test -f dist/sobre.html   && echo "✅ sobre.html encontrado"   || (echo "❌ ERRO: sobre.html não encontrado!"   && exit 1)
+          test -f dist/quem-somos.html   && echo "✅ sobre.html encontrado"   || (echo "❌ ERRO: sobre.html não encontrado!"   && exit 1)
           test -f dist/contato.html && echo "✅ contato.html encontrado" || (echo "❌ ERRO: contato.html não encontrado!" && exit 1)
 
           echo "Auditoria concluída com sucesso! 🎉"
