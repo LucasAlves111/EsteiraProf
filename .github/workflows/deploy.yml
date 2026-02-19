@@ -1,0 +1,57 @@
+name: Esteira de Entrega Profissional
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do Repositório
+        uses: actions/checkout@v3
+
+      # ─────────────────────────────────────────
+      # PARTE 2: Empacotamento na pasta dist/
+      # ─────────────────────────────────────────
+      - name: Empacotar Arquivos na dist
+        run: |
+          # a) Limpeza: apaga qualquer dist antiga
+          rm -rf dist
+
+          # b) Criação: cria a pasta do zero
+          mkdir dist
+
+          # c) Coleta: copia todos os HTMLs para a dist
+          cp *.html dist/
+
+          # d) Assets: copia a pasta assets/ inteira
+          cp -r assets/ dist/assets/
+
+          # e) Logs: lista o conteúdo para o professor ver
+          echo "=== Conteúdo da pasta dist/ ==="
+          ls -lR dist/
+
+      # ─────────────────────────────────────────
+      # PARTE 3: Auditoria de Qualidade
+      # ─────────────────────────────────────────
+      - name: Auditoria de Qualidade
+        run: |
+          echo "Verificando arquivos obrigatórios na dist/..."
+
+          test -f dist/index.html   && echo "✅ index.html encontrado"   || (echo "❌ ERRO: index.html não encontrado!"   && exit 1)
+          test -f dist/sobre.html   && echo "✅ sobre.html encontrado"   || (echo "❌ ERRO: sobre.html não encontrado!"   && exit 1)
+          test -f dist/contato.html && echo "✅ contato.html encontrado" || (echo "❌ ERRO: contato.html não encontrado!" && exit 1)
+
+          echo "Auditoria concluída com sucesso! 🎉"
+
+      # ─────────────────────────────────────────
+      # Deploy (só roda se a auditoria passar)
+      # ─────────────────────────────────────────
+      - name: Deploy
+        run: |
+          echo "Todos os arquivos validados. Iniciando deploy da pasta dist/..."
+          # Aqui você adicionaria o comando real de deploy (ex: GitHub Pages, FTP, etc.)
+          echo "Deploy concluído! ✅"
